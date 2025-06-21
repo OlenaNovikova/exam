@@ -11,13 +11,14 @@
     </style>
   </head>
   <body>
+    
     <div id="ar-container"></div>
 
     <script type="module">
       const start = async () => {
         const mindarThree = new window.MINDAR.IMAGE.MindARThree({
           container: document.querySelector("#ar-container"),
-          imageTargetSrc: "./targets/coordinates.mind",
+          imageTargetSrc: "./targets/coords-grid.mind",
         });
 
         const {renderer, scene, camera} = mindarThree;
