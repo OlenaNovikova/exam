@@ -105,6 +105,56 @@
     <div class="card-body" style="text-align:center;">
         <p>Натисніть кнопку нижче, щоб запустити інтерактивний AR/VR досвід:</p>
         <a href="#" class="btn">📱 Запустити демо
+             <div id="reticle"></div>
+    <div id="ar-container"></div>
+
+    <script type="module">
+      const start = async () => {
+        const mindarThree = new window.MINDAR.IMAGE.MindARThree({
+          container: document.querySelector("#ar-container"),
+          imageTargetSrc: "./targets/coords-grid.mind",
+        });
+
+        const {renderer, scene, camera} = mindarThree;
+
+        const anchor = mindarThree.addAnchor(0);
+
+        // Координатна сітка XY
+        const planeGeometry = new THREE.PlaneGeometry(2, 2);
+        const planeMaterial = new THREE.MeshStandardMaterial({
+          color: 0x88ccee,
+          transparent: true,
+          opacity: 0.5,
+          side: THREE.DoubleSide
+        });
+        const plane = new THREE.Mesh(planeGeometry, planeMaterial);
+        plane.rotateX(-Math.PI / 2);
+        anchor.group.add(plane);
+
+        // Вісь координат
+        const axesHelper = new THREE.AxesHelper(1);
+        anchor.group.add(axesHelper);
+
+        // Тестовий об'єкт
+        const cube = new THREE.Mesh(
+          new THREE.BoxGeometry(0.3, 0.3, 0.3),
+          new THREE.MeshStandardMaterial({color: 0xff4444})
+        );
+        cube.position.set(0, 0.15, 0);
+        anchor.group.add(cube);
+
+        // Освітлення
+        const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
+        scene.add(light);
+
+        await mindarThree.start();
+        renderer.setAnimationLoop(() => {
+          renderer.render(scene, camera);
+        });
+      };
+
+      start();
+    </script>
          <button onclick="location.href='index2.html'">🚀 Запустити AR Демонстрацію</button></a>
         <a href="#" class="btn btn-secondary">📖 Переглянути приклади</a>
     </div>
